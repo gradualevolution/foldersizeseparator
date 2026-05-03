@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Folder Size Separator</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <path d="M3 6.75A2.75 2.75 0 0 1 5.75 4h3.42c.72 0 1.4.34 1.84.91l.92 1.18c.16.2.4.32.66.32h5.66A2.75 2.75 0 0 1 21 9.16v8.09A2.75 2.75 0 0 1 18.25 20H5.75A2.75 2.75 0 0 1 3 17.25V6.75Z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1>Folder Size Separator</h1>
+            <p id="folderLabel">No folder selected</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="chooseFolder" class="button primary" type="button">
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+            </span>
+            Choose folder
+          </button>
+          <button id="rescanFolder" class="button" type="button" disabled>
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v6h-6"></path></svg>
+            </span>
+            Rescan
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="summary-band" aria-label="Folder summary">
+          <div class="stat-card">
+            <span class="stat-label">Eligible files</span>
+            <strong id="eligibleCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Selected</span>
+            <strong id="selectedCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Selected size</span>
+            <strong id="selectedSize">0 B</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Scanned files</span>
+            <strong id="scannedCount">0</strong>
+          </div>
+        </section>
+
+        <section class="control-band" aria-label="Move controls">
+          <label class="field">
+            <span>Target folder</span>
+            <input id="targetFolderName" type="text" value="Under 10MB" autocomplete="off">
+          </label>
+          <label class="field compact">
+            <span>Limit</span>
+            <div class="unit-input">
+              <input id="limitMb" type="number" min="0.1" step="0.1" value="10">
+              <span>MB</span>
+            </div>
+          </label>
+          <div class="control-spacer"></div>
+          <button id="moveSelected" class="button primary wide" type="button" disabled>
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v8.25A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25V7Z"></path><path d="m12 13 2 2 4-4"></path></svg>
+            </span>
+            Move selected
+          </button>
+        </section>
+
+        <section class="table-band" aria-label="Files below limit">
+          <div class="table-toolbar">
+            <label class="search-field">
+              <span class="search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"></path></svg>
+              </span>
+              <input id="fileFilter" type="search" placeholder="Filter paths" autocomplete="off">
+            </label>
+            <label class="check-control">
+              <input id="selectAll" type="checkbox" checked disabled>
+              <span>Select all</span>
+            </label>
+          </div>
+
+          <div id="statusMessage" class="status-message" role="status">Choose a folder to scan.</div>
+
+          <div class="table-wrap" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th class="select-column"></th>
+                  <th>Path</th>
+                  <th>Size</th>
+                  <th>Modified</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="filesBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="fileRowTemplate">
+      <tr>
+        <td class="select-column">
+          <input class="row-check" type="checkbox" checked>
+        </td>
+        <td class="path-cell"></td>
+        <td class="size-cell"></td>
+        <td class="modified-cell"></td>
+        <td class="status-cell"><span class="pill">Ready</span></td>
+      </tr>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
