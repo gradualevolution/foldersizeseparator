@@ -14,10 +14,6 @@ const els = {
   rescanFolder: document.querySelector("#rescanFolder"),
   moveSelected: document.querySelector("#moveSelected"),
   folderLabel: document.querySelector("#folderLabel"),
-  eligibleCount: document.querySelector("#eligibleCount"),
-  selectedCount: document.querySelector("#selectedCount"),
-  selectedSize: document.querySelector("#selectedSize"),
-  scannedCount: document.querySelector("#scannedCount"),
   targetFolderName: document.querySelector("#targetFolderName"),
   limitMb: document.querySelector("#limitMb"),
   fileFilter: document.querySelector("#fileFilter"),
@@ -87,12 +83,7 @@ function getSelectedFiles() {
 
 function updateSummary() {
   const selected = getSelectedFiles();
-  const selectedBytes = selected.reduce((total, file) => total + file.size, 0);
 
-  els.eligibleCount.textContent = String(state.files.length);
-  els.selectedCount.textContent = String(selected.length);
-  els.selectedSize.textContent = formatBytes(selectedBytes);
-  els.scannedCount.textContent = String(state.scannedFiles);
   els.moveSelected.disabled = state.isBusy || selected.length === 0;
   els.selectAll.disabled = state.isBusy || state.files.length === 0;
 
@@ -181,7 +172,7 @@ async function scanDirectory(directoryHandle, pathSegments, matches, targetFolde
 
 async function scanRoot() {
   if (!state.rootHandle) return;
-  setBusy(true, "Scanning folder...");
+  setBusy(true);
 
   try {
     const canRead = await ensurePermission(state.rootHandle, "read");
