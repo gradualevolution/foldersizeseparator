@@ -1,4 +1,4 @@
-const TEN_MB = 10 * 1024 * 1024;
+const DEFAULT_LIMIT_BYTES = 20 * 1024 * 1024;
 
 const state = {
   rootHandle: null,
@@ -42,12 +42,12 @@ function formatDate(timestamp) {
 
 function getLimitBytes() {
   const mb = Number.parseFloat(els.limitMb.value);
-  if (!Number.isFinite(mb) || mb <= 0) return TEN_MB;
+  if (!Number.isFinite(mb) || mb <= 0) return DEFAULT_LIMIT_BYTES;
   return mb * 1024 * 1024;
 }
 
 function sanitizeFolderName(value) {
-  return value.trim().replace(/[<>:"/\\|?*\u0000-\u001f]/g, "-").replace(/\.+$/g, "") || "Under 10MB";
+  return value.trim().replace(/[<>:"/\\|?*\u0000-\u001f]/g, "-").replace(/\.+$/g, "") || "Under 20MB";
 }
 
 function setBusy(isBusy, message = "") {
@@ -123,7 +123,7 @@ function renderRows() {
   }
 
   if (state.files.length === 0) {
-    showStatus(`No files below ${els.limitMb.value || 10} MB were found.`);
+    showStatus(`No files below ${els.limitMb.value || 20} MB were found.`);
   } else if (visibleFiles.length === 0) {
     showStatus("No matching paths.");
   } else {
